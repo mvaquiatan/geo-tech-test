@@ -1,0 +1,24 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "GTMinesweeper",
+	"Description": "Geo Tech Exam - An editor minesweeper game",
+	"Category": "Other",
+	"CreatedBy": "Matthew Aquiatan",
+	"CreatedByURL": "",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": false,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "GTMinesweeperEditor",
+			"Type": "Editor",
+			"LoadingPhase": "Default"
+		}
+	]
+}
