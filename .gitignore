@@ -6,6 +6,7 @@
 
 # Rider files
 .idea
+*.DotSettings.user
 
 # Compiled Object files
 *.slo
