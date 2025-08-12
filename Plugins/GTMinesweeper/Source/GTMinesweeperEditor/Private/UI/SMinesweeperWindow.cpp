@@ -113,6 +113,7 @@ FReply SMinesweeperWindow::AttemptToRefreshBoard()
 	{
 	case EMinesweeperError::None:
 		GenerateButtonText->SetText(LOCTEXT("RestartGameText", "Restart"));
+		GenerateButtonText->SetColorAndOpacity(FLinearColor::White);
 		CreateMinesweeperBoard();
 		break;
 	case EMinesweeperError::InputMaxMines:
@@ -152,10 +153,15 @@ void SMinesweeperWindow::OnUpdateMinesweeperBoard()
 	{
 		return;
 	}
-
-	if (Minesweeper->IsGameOver())
+	if (Minesweeper->IsCompleted())
+	{
+		GenerateButtonText->SetText(LOCTEXT("WinnerText", "You Win: Retry"));
+		GenerateButtonText->SetColorAndOpacity(FLinearColor::Green);
+	}
+	else if (Minesweeper->IsGameOver())
 	{
 		GenerateButtonText->SetText(LOCTEXT("GameOverText", "Game Over: Retry"));
+		GenerateButtonText->SetColorAndOpacity(FLinearColor::Red);
 	}
 }
 

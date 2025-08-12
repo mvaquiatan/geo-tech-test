@@ -34,6 +34,7 @@ public:
     void ResetBoard();
     void Reveal(int32 Row, int32 Col, bool bFromInput = true);
     bool IsGameOver() const { return bGameOver; }
+    bool IsCompleted() const { return bIsCompleted; }
 
     static EMinesweeperError VerifyMinesweeperData(int32 InRows, int32 InColumns, int32 InMines);
 
@@ -47,7 +48,9 @@ private:
     int32 Rows = 0;
     int32 Columns = 0;
     int32 MinesCount = 0;
+    int32 RevealedCount = 0;
     bool bGameOver = false;
+    bool bIsCompleted = false;
 
     TArray<TArray<FMinesweeperCellInfo>> Board;
 

@@ -58,6 +58,7 @@ void SMinesweeperBoard::OnCellClicked(int32 Row, int32 Col)
 void SMinesweeperBoard::OnRevealCell()
 {
 	const bool bIsGameOver = Minesweeper->IsGameOver();
+	const bool bIsCompleted = Minesweeper->IsCompleted();
 	const int32 Rows = Minesweeper->GetRows();
 	const int32 Columns = Minesweeper->GetColumns();
 	for (int32 Row = 0; Row < Rows; ++Row)
@@ -65,7 +66,7 @@ void SMinesweeperBoard::OnRevealCell()
 		for (int32 Col = 0; Col < Columns; ++Col)
 		{
 			const int32 Index = Row * Columns + Col;
-			if (bIsGameOver || Minesweeper->GetCell(Row, Col).bRevealed)
+			if (bIsCompleted || bIsGameOver || Minesweeper->GetCell(Row, Col).bRevealed)
 			{
 				WidgetCells[Index]->Reveal();
 			}

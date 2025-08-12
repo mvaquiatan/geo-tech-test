@@ -33,6 +33,11 @@ void FMinesweeper::Reveal(int32 Row, int32 Col, bool bFromInput/* = true*/)
     ON_SCOPE_EXIT{
         if (bFromInput)
         {
+            int32 CellCount = Rows * Columns;
+            if (RevealedCount >= CellCount - MinesCount)
+            {
+                bIsCompleted = true;
+            }
             UE_LOG(LogMinesweeperCore, Display, TEXT("Board updated!"));
             OnRevealCellDelegate.Broadcast();
         }
@@ -52,6 +57,8 @@ void FMinesweeper::Reveal(int32 Row, int32 Col, bool bFromInput/* = true*/)
         return;
     }
 
+    ++RevealedCount;
+    
     // Flood fill if empty
     if (Board[Row][Col].NeighborMines == 0)
     {
