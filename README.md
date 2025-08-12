@@ -3,6 +3,7 @@
 A minesweeper game to showcase a glimpse of the tool/ UI capabilities of the author.
 
 ## What's included?
+- A UE 5.6 C++ project, with a newly created plugin.
 - An editor toolbar button to show the minesweeper window. Located besides the `Platform` combo box at the top of the window.
 - A completely working minesweeper game with a win and lose condition and a modifiable input for its width, height, and the mine count. You can always restart the game.
 - Some input validations.
