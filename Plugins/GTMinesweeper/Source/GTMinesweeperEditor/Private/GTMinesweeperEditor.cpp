@@ -5,6 +5,7 @@
 #include "GTMinesweeperCommands.h"
 #include "Misc/MessageDialog.h"
 #include "ToolMenus.h"
+#include "UI/SMinesweeperWindow.h"
 
 static const FName GTMinesweeperTabName("GTMinesweeper");
 
@@ -34,6 +35,12 @@ void FGTMinesweeperEditorModule::ShutdownModule()
 	// This function may be called during shutdown to clean up your module.  For modules that support dynamic reloading,
 	// we call this function before unloading the module.
 
+	if (MinesweeperWindow.IsValid())
+	{
+		MinesweeperWindow->RequestDestroyWindow();
+		MinesweeperWindow.Reset();
+	}
+	
 	UToolMenus::UnRegisterStartupCallback(this);
 
 	UToolMenus::UnregisterOwner(this);
@@ -45,13 +52,19 @@ void FGTMinesweeperEditorModule::ShutdownModule()
 
 void FGTMinesweeperEditorModule::PluginButtonClicked()
 {
-	// Put your "OnButtonClicked" stuff here
-	FText DialogText = FText::Format(
-							LOCTEXT("PluginButtonDialogText", "Add code to {0} in {1} to override this button's actions"),
-							FText::FromString(TEXT("FGTMinesweeperModule::PluginButtonClicked()")),
-							FText::FromString(TEXT("GTMinesweeper.cpp"))
-					   );
-	FMessageDialog::Open(EAppMsgType::Ok, DialogText);
+	if (MinesweeperWindow.IsValid())
+	{
+		return;
+	}
+	
+	MinesweeperWindow = SNew(SMinesweeperWindow);
+	MinesweeperWindow->SetOnWindowClosed(FOnWindowClosed::CreateRaw(this, &FGTMinesweeperEditorModule::OnMinesweeperWindowClosed));
+	FSlateApplication::Get().AddWindow(MinesweeperWindow.ToSharedRef());
+}
+
+void FGTMinesweeperEditorModule::OnMinesweeperWindowClosed(const TSharedRef<SWindow>& Window)
+{
+	MinesweeperWindow.Reset();
 }
 
 void FGTMinesweeperEditorModule::RegisterMenus()

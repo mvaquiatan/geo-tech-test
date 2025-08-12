@@ -4,6 +4,7 @@
 
 #include "Modules/ModuleManager.h"
 
+class SMinesweeperWindow;
 class FToolBarBuilder;
 class FMenuBuilder;
 
@@ -20,9 +21,12 @@ public:
 	
 private:
 
+	void OnMinesweeperWindowClosed(const TSharedRef<SWindow>& Window);
+
 	void RegisterMenus();
 
 
 private:
 	TSharedPtr<class FUICommandList> PluginCommands;
+	TSharedPtr<SMinesweeperWindow> MinesweeperWindow;
 };
