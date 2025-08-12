@@ -6,6 +6,14 @@
 
 DECLARE_MULTICAST_DELEGATE(FOnMinesweeperBoardUpdateDelegate);
 
+enum class GTMINESWEEPERCORE_API EMinesweeperError
+{
+    None,
+    InputZero,
+    InputRowCol,
+    InputMaxMines,
+};
+
 struct GTMINESWEEPERCORE_API FMinesweeperCellInfo
 {
     bool bHasMine = false;
@@ -27,11 +35,11 @@ public:
     void Reveal(int32 Row, int32 Col, bool bFromInput = true);
     bool IsGameOver() const { return bGameOver; }
 
-    ~FMinesweeper() { UE_LOG(LogTemp, Display, TEXT("DEV: Destroy minesweeper")); }
+    static EMinesweeperError VerifyMinesweeperData(int32 InRows, int32 InColumns, int32 InMines);
 
 private:
 
-    bool IsValid(int32 Row, int32 Col) const;
+    bool IsValidCell(int32 Row, int32 Col) const;
     void PlaceMines();
     void CalculateNumbers();
     

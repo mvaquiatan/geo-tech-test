@@ -108,8 +108,23 @@ void SMinesweeperWindow::Construct(const FArguments& InArgs)
 
 FReply SMinesweeperWindow::AttemptToRefreshBoard()
 {
-	GenerateButtonText->SetText(LOCTEXT("RestartGameText", "Restart"));
-	CreateMinesweeperBoard();
+	const EMinesweeperError& Error = FMinesweeper::VerifyMinesweeperData(Rows, Columns, Mines);
+	switch (Error)
+	{
+	case EMinesweeperError::None:
+		GenerateButtonText->SetText(LOCTEXT("RestartGameText", "Restart"));
+		CreateMinesweeperBoard();
+		break;
+	case EMinesweeperError::InputMaxMines:
+		FMessageDialog::Open(EAppMsgType::Ok, LOCTEXT("MaxMineErrorText", "You've reached the max mines that can be placed on the board."));
+		break;
+	case EMinesweeperError::InputRowCol:
+		FMessageDialog::Open(EAppMsgType::Ok, LOCTEXT("RowColErrorText", "Invalid row and/ or column count"));
+		break;
+	case EMinesweeperError::InputZero:
+		FMessageDialog::Open(EAppMsgType::Ok, LOCTEXT("ZeroErrorText", "Zeroes are not a valid input"));
+		break;
+	}
 	return FReply::Handled();
 }
 

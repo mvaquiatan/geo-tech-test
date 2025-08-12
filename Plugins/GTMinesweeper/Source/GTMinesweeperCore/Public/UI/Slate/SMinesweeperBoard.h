@@ -17,8 +17,6 @@ public:
 	void OnCellClicked(int32 Row, int32 Col);
 
 	void OnRevealCell();
-
-	~SMinesweeperBoard(){ UE_LOG(LogTemp, Display, TEXT("DEV: DEstroy Minesweeper board")); }
 	
 private:
 	TArray<TSharedPtr<SMinesweeperCell>> WidgetCells;

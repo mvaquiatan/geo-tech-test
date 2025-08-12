@@ -38,7 +38,7 @@ void FMinesweeper::Reveal(int32 Row, int32 Col, bool bFromInput/* = true*/)
         }
     };
     
-    if (!IsValid(Row, Col) || Board[Row][Col].bRevealed)
+    if (!IsValidCell(Row, Col) || Board[Row][Col].bRevealed)
     {
         return;
     }
@@ -68,7 +68,25 @@ void FMinesweeper::Reveal(int32 Row, int32 Col, bool bFromInput/* = true*/)
     }
 }
 
-bool FMinesweeper::IsValid(int32 Row, int32 Col) const
+EMinesweeperError FMinesweeper::VerifyMinesweeperData(int32 InRows, int32 InColumns, int32 InMines)
+{
+    if (InMines == 0 || InRows == 0 || InColumns == 0)
+    {
+        return EMinesweeperError::InputZero;
+    }
+    int32 MaxMines = InRows * InColumns - 1;
+    if (InMines > MaxMines)
+    {
+        return EMinesweeperError::InputMaxMines;
+    }
+    if (InRows <= 1 || InColumns <= 1)
+    {
+        return EMinesweeperError::InputRowCol;
+    }
+    return EMinesweeperError::None;
+}
+
+bool FMinesweeper::IsValidCell(int32 Row, int32 Col) const
 {
     return Row >= 0 && Row < Rows && Col >= 0 && Col < Columns;
 }
@@ -104,7 +122,7 @@ void FMinesweeper::CalculateNumbers()
             {
                 for (int32 dc = -1; dc <= 1; ++dc)
                 {
-                    if ((dr != 0 || dc != 0) && IsValid(r + dr, c + dc) && Board[r + dr][c + dc].bHasMine)
+                    if ((dr != 0 || dc != 0) && IsValidCell(r + dr, c + dc) && Board[r + dr][c + dc].bHasMine)
                     {
                         Count++;
                     }
